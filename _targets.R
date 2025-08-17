@@ -14,6 +14,11 @@ googledrive::drive_auth(
   path = Sys.getenv("GOOGLE_AUTH_FILE")
 )
 
+googlesheets4::gs4_auth(
+  email = Sys.getenv("GOOGLE_AUTH_EMAIL"),
+  path = Sys.getenv("GOOGLE_AUTH_FILE")  
+)
+
 
 ## Data targets ----
 data_targets <- tar_plan(
