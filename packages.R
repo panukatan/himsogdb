@@ -1,8 +1,7 @@
-################################################################################
-#
-# Load packages required for standard workflows
-#
-################################################################################
+# Load packages ----------------------------------------------------------------
+
+
+## General purpose packages ----
 
 library(targets)
 library(tarchetypes)
@@ -16,3 +15,8 @@ library(openxlsx)
 library(ggplot2)
 library(quarto)
 
+
+## Google packages ----
+
+library(googledrive)
+library(googlesheets4)

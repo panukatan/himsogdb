@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# A template R workflow for general data analysis
+# himsog-db
 
 <!-- badges: start -->
 
@@ -19,7 +19,7 @@ This repository is a template for a
 
 The project repository is structured as follows:
 
-    sc-policy-review
+    himsog-db
         |-- .github/
         |-- data/
         |-- data-raw/

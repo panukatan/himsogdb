@@ -11,7 +11,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# A template R workflow for general data analysis
+# himsog-db
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -27,7 +27,7 @@ This repository is a template for a [`docker`](https://www.docker.com/get-starte
 The project repository is structured as follows:
 
 ```
-sc-policy-review
+himsog-db
     |-- .github/
     |-- data/
     |-- data-raw/
