@@ -1,53 +1,99 @@
 #'
+#' Get Google Sheets ID
+#' 
+
+get_gsheets_id <- function(path, filename) {  
+  id <- googledrive::drive_ls(
+    path = path, pattern = filename, recursive = TRUE
+  ) |>
+    dplyr::pull(id)
+
+  id
+}
+
+
+#'
+#' Create new Google Drive directory
+#' 
+
+create_gdrive_folder <- function(dir_name, dir_path) {
+  ## Create dir_path ----
+  x <- googledrive::drive_get(file.path(dir_path, dir_name))
+
+  if (nrow(x) == 0) {
+    googledrive::drive_mkdir(name = dir_name, path = dir_path)
+  }
+
+  file.path(dir_path, dir_name)
+}
+
+
+#'
+#' Copy Google Drive files from one Drive to another
+#' 
+
+copy_gdrive <- function(id, dir_path, overwrite = FALSE) {
+  filename <- googledrive::drive_get(id = id)$name
+
+  path <- file.path(dir_path, filename)
+
+  x <- googledrive::drive_get(path)
+
+  if (nrow(x) == 0 | (nrow(x) != 0 & overwrite)) {
+    googledrive::drive_cp(file = id, path = path, overwrite = overwrite)
+  }
+
+  path
+}
+
+
+#'
 #' Download files from Google Drive
 #'
 
-download_googledrive <- function(filename, 
-                                 path = paste0("data/", filename),
-                                 overwrite = FALSE) {
-  ## Authenticate
-  googledrive::drive_auth(
-    email = Sys.getenv("GOOGLE_AUTH_EMAIL"),
-    path = Sys.getenv("GOOGLE_AUTH_FILE")
-  )
-  
-  ## 
-  googledrive::drive_download(
-    file = filename,
-    path = path,
-    overwrite = overwrite
-  )
+download_gdrive <- function(id,
+                            dir_path,
+                            overwrite = FALSE) {
+  ## Check if dir_path exists and create if it doesn't ----
+  if (!dir.exists(dir_path)) {
+    dir.create(dir_path, recursive = TRUE)
+  }
+
+  ## Get filename ----
+  filename <- googledrive::drive_get(id = id)$name
+
+  ## Create path to downloaded file ----
+  path <- file.path(dir_path, filename)
+
+  if ((file.exists(path) & overwrite) | !file.exists(path)) {
+    ## Download Google Drive file into dir_path ----
+    googledrive::drive_download(
+      file = id,
+      path = path,
+      overwrite = overwrite
+    )
+  }
+
+  path
 }
 
 
 #'
-#' Access Google Sheets
-#'
+#' Get Google Drive files ID
+#' 
 
-get_googlesheets <- function(id = std_data_id) {
-  googlesheets4::gs4_auth(
-    email = Sys.getenv("GOOGLE_AUTH_EMAIL"),
-    path = Sys.getenv("GOOGLE_AUTH_FILE")
-  )
-  
-  googlesheets4::read_sheet(
-    ss = id, sheet = 1
-  )
+get_gdrive_id <- function(gdrive_files) {
+  gdrive_files |>
+    dplyr::filter(!is.na(doh_google_drive_link)) |>
+    dplyr::pull(doh_google_drive_link) |>
+    googledrive::as_id()
 }
 
+#'
+#' Get Google Drive file names
+#' 
 
-get_googlesheets_id <- function(filename) {
-  ## Authenticate
-  googledrive::drive_auth(
-    email = Sys.getenv("GOOGLE_AUTH_EMAIL"),
-    path = Sys.getenv("GOOGLE_AUTH_FILE")
-  )
-  
-  files <- googledrive::drive_find()
-  
-  id <- files |>
-    subset(name == filename, select = id) |>
-    as.character()
-
-  id
+get_gdrive_filename <- function(gdrive_file_id) {
+  googledrive::drive_get(gdrive_file_id) |>
+    dplyr::pull(name)
 }
