@@ -42,11 +42,17 @@ data_targets <- tar_plan(
   )
 )
 
+
 ## EDCS targets ----
 source("_targets_edcs.R")
 
+
 ## PIDSR targets ----
 source("_targets_pidsr.R")
+
+
+## PHAR targets ----
+source("_targets_phar.R")
 
 
 ## Processing targets ----
