@@ -73,16 +73,16 @@ data_targets <- tar_plan(
       gdrive_files = edcs_gdrive_directory_files
     ),
     pattern = map(edcs_gdrive_file_id)
-  ),
-  tar_target(
-    name = edcs_gdrive_download_file,
-    command = download_gdrive(
-      id = edcs_gdrive_file_id,
-      dir_path = "pdf/edcs",
-      overwrite = TRUE
-    ),
-    pattern = map(edcs_gdrive_file_id)
-  )
+  )#,
+  # tar_target(
+  #   name = edcs_gdrive_download_file,
+  #   command = download_gdrive(
+  #     id = edcs_gdrive_file_id,
+  #     dir_path = "pdf/edcs",
+  #     overwrite = TRUE
+  #   ),
+  #   pattern = map(edcs_gdrive_file_id)
+  # )
 )
 
 
