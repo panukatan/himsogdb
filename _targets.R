@@ -59,6 +59,10 @@ source("_targets_phar.R")
 source("_targets_fhsis.R")
 
 
+## TBIS targets ----
+source("_targets_tbis.R")
+
+
 
 ## Processing targets ----
 processing_targets <- tar_plan(
