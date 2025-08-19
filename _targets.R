@@ -55,6 +55,11 @@ source("_targets_pidsr.R")
 source("_targets_phar.R")
 
 
+## FHSIS targets ----
+source("_targets_fhsis.R")
+
+
+
 ## Processing targets ----
 processing_targets <- tar_plan(
   
