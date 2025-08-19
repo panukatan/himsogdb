@@ -23,7 +23,7 @@ jobs:
           
       - name: Trust git repo
         run: |
-          git config --global --add safe.directory /__w/himsog-db/himsog-db
+          git config --global --add safe.directory /__w/himsogdb/himsogdb
 
       - name: Decrypt repository using symmetric key
         run: |
