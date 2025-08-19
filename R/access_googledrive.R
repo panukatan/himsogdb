@@ -16,15 +16,20 @@ get_gsheets_id <- function(path, filename) {
 #' Create new Google Drive directory
 #' 
 
-create_gdrive_folder <- function(dir_name, dir_path) {
-  ## Create dir_path ----
-  x <- googledrive::drive_get(file.path(dir_path, dir_name))
+create_gdrive_folder <- function(gdrive, dir_name, overwrite = FALSE) {
+  x <- try(
+    googledrive::drive_mkdir(
+      name = dir_name, path = gdrive, overwrite = overwrite
+    ),
+    silent = TRUE
+  )
 
-  if (nrow(x) == 0) {
-    googledrive::drive_mkdir(name = dir_name, path = dir_path)
+  if (is(x, "try-error")) {
+    x <- googledrive::drive_ls(path = gdrive$id) |>
+      dplyr::filter(name == dir_name)
   }
 
-  file.path(dir_path, dir_name)
+  x
 }
 
 
@@ -32,18 +37,20 @@ create_gdrive_folder <- function(dir_name, dir_path) {
 #' Copy Google Drive files from one Drive to another
 #' 
 
-copy_gdrive <- function(id, dir_path, overwrite = FALSE) {
+copy_gdrive <- function(id, gdrive, gdrive_files, overwrite = FALSE) {
   filename <- googledrive::drive_get(id = id)$name
 
-  path <- file.path(dir_path, filename)
+  file_exists <- filename %in% gdrive_files$name
 
-  x <- googledrive::drive_get(path)
-
-  if (nrow(x) == 0 | (nrow(x) != 0 & overwrite)) {
-    googledrive::drive_cp(file = id, path = path, overwrite = overwrite)
+  if (!file_exists | (file_exists & overwrite)) {
+    googledrive::drive_cp(
+      file = id, path = gdrive, name = filename,
+      overwrite = overwrite
+    )
+  } else {
+    gdrive_files |>
+      dplyr::filter(name == filename)
   }
-
-  path
 }
 
 

@@ -24,8 +24,9 @@ googlesheets4::gs4_auth(
 data_targets <- tar_plan(
   ## URL for himsog directory in Google Drive ----
   gdrive_directory_id = googledrive::as_id(
-    "https://drive.google.com/drive/folders/1BP9eXlBo3dpX0c9itcbwQe9OSSZcUm2w"
+    "https://drive.google.com/drive/folders/0AKwv_i3QrXCtUk9PVA"
   ),
+  gdrive_directory = googledrive::shared_drive_get(id = gdrive_directory_id),
   tar_target(
     name = gdrive_file_list_id,
     command = get_gsheets_id(
@@ -49,27 +50,39 @@ data_targets <- tar_plan(
     pattern = map(edcs_gdrive_file_id)
   ),
   tar_target(
+    name = himsog_gdrive_directory,
+    command = create_gdrive_folder(
+      gdrive = gdrive_directory, dir_name = "himsog"
+    )
+  ),
+  tar_target(
     name = edcs_gdrive_directory,
     command = create_gdrive_folder(
-      dir_name = "edcs", dir_path = "philippines/himsog"
+      gdrive = himsog_gdrive_directory, dir_name = "edcs"
     )
-  )#,
-  # tar_target(
-  #   name = edcs_gdrive_file_copy,
-  #   command = copy_gdrive(
-  #     id = edcs_gdrive_file_id, dir_path = edcs_gdrive_directory
-  #   ),
-  #   pattern = map(edcs_gdrive_file_id)
-  # )
-  # tar_target(
-  #   name = edcs_gdrive_download_file,
-  #   command = download_gdrive(
-  #     id = edcs_gdrive_file_id,
-  #     dir_path = "pdf/edcs",
-  #     overwrite = TRUE
-  #   ),
-  #   pattern = map(edcs_gdrive_file_id)
-  # )
+  ),
+  tar_target(
+    name = edcs_gdrive_directory_files,
+    command = googledrive::drive_ls(edcs_gdrive_directory),
+    cue = tar_cue("always")
+  ),
+  tar_target(
+    name = edcs_gdrive_file_copy,
+    command = copy_gdrive(
+      id = edcs_gdrive_file_id, gdrive = edcs_gdrive_directory,
+      gdrive_files = edcs_gdrive_directory_files
+    ),
+    pattern = map(edcs_gdrive_file_id)
+  ),
+  tar_target(
+    name = edcs_gdrive_download_file,
+    command = download_gdrive(
+      id = edcs_gdrive_file_id,
+      dir_path = "pdf/edcs",
+      overwrite = TRUE
+    ),
+    pattern = map(edcs_gdrive_file_id)
+  )
 )
 
 
