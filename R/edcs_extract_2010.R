@@ -2,7 +2,7 @@
 #' Extract data from EDCS 2010 pdf/s
 #' 
 
-edcs_extract_data_2010 <- function(gdrive) {
+edcs_extract_data_2010 <- function(gdrive, edcs_disease_list) {
   destfile <- file.path(tempdir(), gdrive$name)
   googledrive::drive_download(file = gdrive, path = destfile, overwrite = TRUE)
 
@@ -21,9 +21,21 @@ edcs_extract_data_2010 <- function(gdrive) {
       }
     ) |>
     do.call(cbind, args = _) |>
-    tibble::as_tibble() |>
+    tibble::as_tibble()
     
+  x <- c(
+    "cases_cum_week_51", "deaths_cum_week_51", 
+    "cases_n_week_52", "deaths_n_week_52"
+  )
 
+  df_names <- lapply(
+    X = edcs_disease_list$disease_code, FUN = paste, x, sep = "_"
+  ) |>
+    unlist()
+
+  names(pdf_data) <- df_names
+
+  pdf_data
 }
 
 

@@ -48,7 +48,8 @@ data_targets <- tar_plan(
     command = create_gdrive_folder(
       gdrive = gdrive_directory, dir_name = "himsog"
     )
-  )
+  ),
+  edcs_disease_list = edcs_list_diseases()
 )
 
 
