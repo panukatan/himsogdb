@@ -4,8 +4,9 @@
 phar_data_targets <- tar_plan(
   tar_target(
     name = phar_gdrive_files,
-    command = googlesheets4::read_sheet(
-      ss = gdrive_file_list_id, sheet = 3
+    command = openxlsx::read.xlsx(
+      xlsxFile = doh_disease_surveillance_file,
+      sheet = 3
     )
   ),
   tar_target(

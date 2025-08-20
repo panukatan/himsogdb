@@ -4,8 +4,9 @@
 edcs_data_targets <- tar_plan(
   tar_target(
     name = edcs_gdrive_files,
-    command = googlesheets4::read_sheet(
-      ss = gdrive_file_list_id, sheet = 1
+    command = openxlsx::read.xlsx(
+      xlsxFile = doh_disease_surveillance_file,
+      sheet = 1
     )
   ),
   tar_target(
