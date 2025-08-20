@@ -4,8 +4,9 @@
 fhsis_data_targets <- tar_plan(
   tar_target(
     name = fhsis_gdrive_files,
-    command = googlesheets4::read_sheet(
-      ss = gdrive_file_list_id, sheet = 4
+    command = openxlsx::read.xlsx(
+      xlsxFile = doh_disease_surveillance_file,
+      sheet = 4
     )
   ),
   tar_target(
@@ -52,8 +53,9 @@ fhsis_data_targets <- tar_plan(
 fhsis_quarterly_data_targets <- tar_plan(
   tar_target(
     name = fhsis_quarterly_gdrive_files,
-    command = googlesheets4::read_sheet(
-      ss = gdrive_file_list_id, sheet = 5
+    command = openxlsx::read.xlsx(
+      xlsxFile = doh_disease_surveillance_file,
+      sheet = 5
     )
   ),
   tar_target(

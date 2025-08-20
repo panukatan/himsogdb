@@ -28,6 +28,15 @@ data_targets <- tar_plan(
   ),
   gdrive_directory = googledrive::shared_drive_get(id = gdrive_directory_id),
   tar_target(
+    name = doh_disease_surveillance_file,
+    command = download_doh_stats_files_list(
+      gdrive_directory = gdrive_directory,
+      destfile = "data/doh_disease_surveillance_files.xlsx",
+      overwrite = TRUE
+    ),
+    format = "file"
+  ),
+  tar_target(
     name = gdrive_file_list_id,
     command = get_gsheets_id(
       path = gdrive_directory_id, 
