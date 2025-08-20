@@ -111,14 +111,16 @@ get_gdrive_filename <- function(gdrive_file_id) {
 #' Download Google Sheets listing of available health statistics files
 #' 
 
-download_doh_stats_files_list <- function(gdrive_directory, destfile) {
+download_doh_stats_files_list <- function(gdrive_directory, destfile, 
+                                          overwrite = FALSE) {
   file <- gdrive_directory |>
     googledrive::drive_ls() |>
     dplyr::filter(name == "doh_disease_surveillance_files")
 
   googledrive::drive_download(
       file = file,
-      path = destfile
+      path = destfile,
+      overwrite = overwrite
     )
   
   destfile

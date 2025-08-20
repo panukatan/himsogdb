@@ -31,7 +31,8 @@ data_targets <- tar_plan(
     name = doh_disease_surveillance_file,
     command = download_doh_stats_files_list(
       gdrive_directory = gdrive_directory,
-      destfile = "data/doh_disease_surveillance_files.xlsx"
+      destfile = "data/doh_disease_surveillance_files.xlsx",
+      overwrite = TRUE
     ),
     format = "file"
   ),
