@@ -19,7 +19,8 @@ jobs:
       - name: Install system dependencies
         run: |
           apt-get update && apt-get install -y --no-install-recommends \
-          libxt6 libglpk-dev git-crypt
+          git-crypt libxt6 libglpk-dev libpoppler-cpp-dev \
+          libtesseract-dev libleptonica-dev tesseract-ocr-eng
           
       - name: Trust git repo
         run: |

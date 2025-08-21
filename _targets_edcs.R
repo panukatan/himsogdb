@@ -46,3 +46,9 @@ edcs_data_targets <- tar_plan(
   #   pattern = map(edcs_gdrive_file_id)
   # )
 )
+
+
+## EDCS data extraction targets ----
+edcs_data_extract_targets <- tar_plan(
+  
+)
