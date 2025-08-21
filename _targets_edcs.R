@@ -50,5 +50,12 @@ edcs_data_targets <- tar_plan(
 
 ## EDCS data extraction targets ----
 edcs_data_extract_targets <- tar_plan(
-  
+  tar_target(
+    name = edcs_weekly_2010,
+    command = edcs_extract_data_2010(
+      gdrive = edcs_gdrive_file_copy |>
+        dplyr::filter(stringr::str_detect(string = name, pattern = "2010")),
+      edcs_disease_list = edcs_disease_list
+    )
+  )
 )
