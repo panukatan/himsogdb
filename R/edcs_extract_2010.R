@@ -2,7 +2,7 @@
 #' Extract data from EDCS 2010 pdf/s
 #' 
 
-edcs_extract_data_2010 <- function(gdrive, disease_list) {
+edcs_extract_data_2010 <- function(text_data, disease_list) {
   x <- c(
     "cases_cum_week51", "deaths_cum_week51", 
     "cases_n_week52", "deaths_n_week52"
@@ -14,10 +14,7 @@ edcs_extract_data_2010 <- function(gdrive, disease_list) {
     unlist()
   df_names <- c("region", df_names)
 
-  destfile <- file.path(tempdir(), gdrive$name)
-  googledrive::drive_download(file = gdrive, path = destfile, overwrite = TRUE)
-
-  df <- pdftools::pdf_ocr_text(destfile) |>
+  df <- text_data |>
     stringr::str_split(pattern = "\n") |>
     lapply(
       FUN = function(x) {
@@ -86,8 +83,6 @@ edcs_extract_data_2010 <- function(gdrive, disease_list) {
       type2 = ifelse(type2 == "cum", "cumulative", "current week")
     ) |>
     dplyr::relocate(disease, .after = disease_code)
-
-  unlink(destfile)
 
   df
 }
