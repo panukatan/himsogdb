@@ -35,16 +35,7 @@ edcs_data_targets <- tar_plan(
       gdrive_files = edcs_gdrive_directory_files
     ),
     pattern = map(edcs_gdrive_file_id)
-  )#,
-  # tar_target(
-  #   name = edcs_gdrive_download_file,
-  #   command = download_gdrive(
-  #     id = edcs_gdrive_file_id,
-  #     dir_path = "pdf/edcs",
-  #     overwrite = TRUE
-  #   ),
-  #   pattern = map(edcs_gdrive_file_id)
-  # )
+  )
 )
 
 
@@ -55,7 +46,17 @@ edcs_data_extract_targets <- tar_plan(
     command = edcs_extract_data_2010(
       gdrive = edcs_gdrive_file_copy |>
         dplyr::filter(stringr::str_detect(string = name, pattern = "2010")),
-      edcs_disease_list = edcs_disease_list
+      disease_list = edcs_disease_list |>
+        dplyr::filter(year == 2010)
+    )
+  ),
+  tar_target(
+    name = edcs_weekly_2011,
+    command = edcs_extract_data_2011(
+      gdrive = edcs_gdrive_file_copy |>
+        dplyr::filter(stringr::str_detect(string = name, pattern = "2011")),
+      disease_list = edcs_disease_list |>
+        dplyr::filter(year %in% 2010:2011)
     )
   )
 )
