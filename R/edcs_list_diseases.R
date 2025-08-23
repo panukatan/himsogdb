@@ -12,15 +12,19 @@ edcs_list_diseases <- function() {
     "2010", "aei", "Adverse Events following Immunization", NA_character_,
     "2010", "ant", "Anthrax", "suspected/clinically-confirmed",
     "2010", "cho", "Cholera", "suspected/clinically-confirmed",
+    "2011", "chl", "Cholera", "laboratory-confirmed", 
     "2010", "den", "Dengue", "suspected/clinically-confirmed",
     "2010", "dpt", "Diptheria", "suspected/clinically-confirmed",
     "2010", "hep", "Hepatitis", "laboratory-confirmed",
     "2010", "ili", "Influenza-like Illness", NA_character_,
     "2010", "lep", "Leptospirosis", "suspected/clinically-confirmed",
+    "2011", "let", "Leptospirosis", "laboratory-confirmed",
     "2010", "mal", "Malaria", "laboratory-confirmed",
     "2010", "mea", "Measles", "laboratory-confirmed",
     "2010", "meb", "Bacterial Meningitis", "suspected/clinically-confirmed",
+    "2011", "mel", "Bacterial Meningitis", "laboratory-confirmed",
     "2010", "med", "Meningococcal Disease", "suspected/clinically-confirmed",
+    "2011", "men", "Meningococcal Disease", "laboratory-confirmed",
     "2010", "net", "Neonatal Tetanus", NA_character_,
     "2010", "nnt", "Non-neonatal Tetanus", NA_character_,
     "2010", "psp", "Paralytic Shellfish Poisoning", "suspected/clinically-confirmed",
@@ -28,5 +32,9 @@ edcs_list_diseases <- function() {
     "2010", "rab", "Rabies", NA_character_,
     "2010", "tys", "Typhoid Fever (suspected/clinical)", "suspected/clinically-confirmed",
     "2010", "typ", "Typhoid Fever (laboratory-confirmed)", "laboratory-confirmed"
-  )
+  ) |>
+    dplyr::mutate(
+      dplyr::across(.cols = disease_code, .fns = factor),
+      dplyr::across(.cols = disease, .fns = factor)
+    )
 }
