@@ -15,6 +15,7 @@ edcs_list_diseases <- function() {
     "2011", "chl",         "Cholera",                               "laboratory-confirmed", 
     "2010", "den",         "Dengue",                                "suspected/clinically-confirmed",
     "2010", "dpt",         "Diptheria",                             "suspected/clinically-confirmed",
+    "2013", "hfm",         "Hand, foot, and mouth Disease",         "suspected/clinically-confirmed",
     "2010", "hep",         "Hepatitis",                             "laboratory-confirmed",
     "2010", "ili",         "Influenza-like Illness",                NA_character_,
     "2010", "lep",         "Leptospirosis",                         "suspected/clinically-confirmed",
